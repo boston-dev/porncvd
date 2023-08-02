@@ -276,7 +276,7 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-        site:{$in:['javdove2023','5f']}
+        site:{$in:[req.query.site]}
     },{
         page: req.query.page || 1,
         limit:60,
