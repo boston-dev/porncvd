@@ -283,7 +283,7 @@ router.get('/',async (req, res, next) => {
         sort: { date: 1 },
         prelink:'/?page=pageTpl',
         populate: 'cat',
-        select: 'uri site id',
+        select: 'uri site id date',
     }).then(result =>{
         if(+process.env.PORT === 6414){
             result.result=JSON.parse(JSON.stringify(result.result))
