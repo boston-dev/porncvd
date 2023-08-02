@@ -276,13 +276,14 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-        type:'index'
+        site:{$in:['javdove2023','5f']}
     },{
         page: req.query.page || 1,
         limit:60,
-        sort: { date: -1 },
+        sort: { date: 1 },
         prelink:'/?page=pageTpl',
         populate: 'cat',
+        select: 'uri site id',
     }).then(result =>{
         if(+process.env.PORT === 6414){
             result.result=JSON.parse(JSON.stringify(result.result))
@@ -292,6 +293,8 @@ router.get('/',async (req, res, next) => {
                 v.desc=global.sity(v.desc)
             })
         }
+        return  res.send( result.result);
+        return
         if(req.query.ajax){
             return  res.send( result.result);
         }
