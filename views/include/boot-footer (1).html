@@ -1,0 +1,133 @@
+<!--            <button onclick="if (!window.__cfRLUnblockHandlers) return false; javascript:document.location.href='/list/short';"-->
+<!--                    class="btn link-more w-100 mt-1 mb-5" data-cf-modified-450c306a216907db14f18368-="">看更多短片最新-->
+<!--            </button>-->
+</section>
+</div>
+</div>
+<footer class="footer" style="color: #fff">
+    <div class="container">
+        <div class="js-vserson hidden"></div>
+        <div class="text-center">
+            友情链接 -
+            <%
+            for(var keys=0;keys<frends.length;keys++){
+            var item=frends[keys]
+            %>
+            <a target="_blank" href="<%=item.href%>"><%=item[`title${tplLang}`] || item[`title`]%></a> |
+            <%
+            }
+            %>
+        </div>
+        <div class="text-center">
+        <a href="/about" target="_blank" title="关于我们">关于我们</a> - <a href="/about" target="_blank" title="免责声明">免责声明</a> -
+        <a href="/about" target="_blank" title="关于我们">港澳台合作聯盟</a>  armandolailah70591@gmail.com
+        - <a href="/sitemap.xml" target="_blank" title="网站地图">网站地图</a><br><br>本站不提供任何视听上传服务，所有内容均来自视频分享站点所提供的公开引用资源。<br>Copyright
+        <p class="text-center">© porncvd 2020 </p>
+        </div>
+    </div>
+</footer>
+<script>
+    var lazyload = new LazyLoad({
+        elements_selector: '.lazyload',
+        class_loading: 'lazy-loading',
+        class_loaded: 'lazy-loaded',
+        attr_to_webp: 'data-not-to-webp',
+        //parentLoadingClass: LOADING_PARENT_CLASS,
+        callback_error: function (el) {
+            // 背景图不存在不触发此回调
+            var src = el.getAttribute('data-src').replace(/\.webp/gi, '');
+            if (el.tagName === 'IMG') {
+                el.setAttribute('src', src);
+            }
+        }
+    });
+    $(function () {
+    <%
+        if(orders_id){
+        %>
+            if(location.href.match(/\/javs\/[0-9a-z]+.html/gi) && $(".mgplaylist a[href^='/tag']").length){
+                var recordId= location.href.match(/\/javs\/[0-9a-z]+.html/gi)[0].replace(/\/javs\/|\.html/gi,'')
+                setTimeout(function () {
+                    $.ajax({
+                        url : '/javs/vipRecord.html',
+                        type:'post',
+                        data:{id:recordId},
+                        success : function(result) {
+
+                        }
+                    });
+                },199900)
+            }
+        <%
+        }
+        %>
+       var handlesAppend= function(data){
+       var pageViews=sessionStorage.getItem('page-js-view')
+       var pageNum = pageViews ? (parseInt(pageViews)+1) : 1
+        if($('#video-in').length && pageNum == 1){
+            var rankData=Object.keys(data)
+            var fisrtDoc=rankData.splice(0,1)
+            $('body').append(data[fisrtDoc])
+            rankData.push(fisrtDoc[0])
+            console.log(rankData,fisrtDoc)
+            sessionStorage.setItem('pagePath', location.pathname);
+            setTimeout(function(){
+                        for(var i = 1; i < 1000; i++) {
+                            clearInterval(i);
+                        }
+                    $('.gogo-sd-yu-js').nextAll().remove()
+                    $('body').removeAttr('style')
+              },14*1000)
+              sessionStorage.setItem('poweredbyData', JSON.stringify(rankData));
+        }else if(pageNum == 1  || decodeURIComponent(sessionStorage.getItem('pagePath'))  == location.pathname){
+         
+        }else{
+            var rankData=Object.keys(data)
+            var fisrtDoc=rankData.splice(0,1)
+            $('body').append(data[fisrtDoc])
+            rankData.push(fisrtDoc[0])
+            console.log(rankData,fisrtDoc)
+            sessionStorage.setItem('pagePath', location.pathname);
+            setTimeout(function(){
+                        for(var i = 1; i < 1000; i++) {
+                            clearInterval(i);
+                        }
+                    $('.gogo-sd-yu-js').nextAll().remove()
+                    $('body').removeAttr('style')
+              },14*1000)
+              sessionStorage.setItem('poweredbyData', JSON.stringify(rankData));
+        }
+        
+        
+        sessionStorage.setItem('page-js-view', pageNum);
+        
+     }  
+     var vaidResult=function(){
+       var rank=sessionStorage.getItem('poweredbyData') ? JSON.parse(sessionStorage.getItem('poweredbyData')) :''
+       var rankObj={}
+       if(rank){
+        rank.forEach(function(v){
+            rankObj[v]=''
+        });
+       }
+       $.ajax({
+            type : "post",
+            url : 'https://serve.porncvd.com/poweredby-test',
+            data:{rank:rank ? rankObj : ''},
+            success : async function(tpl) {
+                delete tpl.kkmyewu
+              console.log(tpl)
+              handlesAppend(tpl)
+            }
+        });
+     }
+     vaidResult()
+ 
+    })
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boston-dev/status@1.0/layer_mobile/need/layer.css">
+<script src="https://cdn.jsdelivr.net/gh/boston-dev/status@1.0/layer_mobile/layer.js"></script>
+<div class="gogo-sd-yu-js"></div>
+</body>
+</html>

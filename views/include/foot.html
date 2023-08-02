@@ -1,0 +1,151 @@
+
+
+</div>
+</div>
+</section>
+
+
+<footer class="footer">
+    <a href="/about" target="_blank" title="关于我们">关于我们</a> - <a href="/about" target="_blank" title="免责声明">免责声明</a> -
+    <a href="/about" target="_blank" title="关于我们">港澳台合作聯盟</a>  armandolailah70591@gmail.com
+    - <a href="/sitemap.xml" target="_blank" title="网站地图">网站地图</a><br><br>本站不提供任何视听上传服务，所有内容均来自视频分享站点所提供的公开引用资源。<br>Copyright
+    © 2020 91MJW. 保留所有权利<br>
+</footer>
+<footer class="footer">
+    友情链接 -
+    <%
+    for(var keys=0;keys<frends.length;keys++){
+    var item=frends[keys]
+    %>
+    <a style="font-weight:bold;color: #FF5E52"   href="<%=item.href%>"><%=item[`title${tplLang}`] || item[`title`]%></a>-
+    <%
+    }
+    %>
+</footer>
+
+
+<div class="google-ad">
+    <span>google-ad</span>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/boston-dev/status@1.0/layer_mobile/need/layer.css">
+<script src="https://cdn.jsdelivr.net/gh/boston-dev/status@1.0/layer_mobile/layer.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/boston-dev/status@1.0/layer_mobile/js.cookie.min.js"></script>
+<script>
+ /* var blockTimer=  setInterval(function () {
+      if(location.host.indexOf('localhost') > -1){
+          return false
+      }
+      // || Cookies.get('rememberme') && location.href.indexOf('show=1') < 0
+        if($('.layui-m-layer').length){
+            $('.js-vserson').hide()
+            return false
+        }
+        if($('.google-ad').css('display') =='none'){
+            layer.open({
+                content: '請您先暫停或關閉阻擋廣告插件（AdBlock）,或將本站加入白名單;關閉後刷新本頁面.'
+                ,btn: 'ok'
+            });
+        }else{
+            blockTimer && clearInterval(blockTimer)
+            $('.google-ad').remove()
+        }
+    },5000)*/
+  //js-vserson
+  //Cookies.set('timename', 'value', { expires: 0.000694444444444 , path: '/' })
+ var lazyload = new LazyLoad({
+     elements_selector: '.lazyload',
+     class_loading: 'lazy-loading',
+     class_loaded: 'lazy-loaded',
+     attr_to_webp: 'data-not-to-webp',
+     //parentLoadingClass: LOADING_PARENT_CLASS,
+     callback_error: function (el) {
+         // 背景图不存在不触发此回调
+         var src = el.getAttribute('data-src').replace(/\.webp/gi, '');
+         if (el.tagName === 'IMG') {
+             el.setAttribute('src', src);
+         }
+     }
+ });
+
+
+
+  // if((navigator.language||navigator.userLanguage).toLowerCase() == 'zh-cn'){
+  //     if(!Cookies.get('rememberme')){
+  //         $('html').remove()
+  //     }
+  //     $.ajax({
+  //         url : '/check',
+  //         //data:{ip:'154.17.13.213'},
+  //         success : function(result) {
+  //             if(result.pro && !['香港','台湾省','澳门'].includes(result.pro.trim())){
+  //                 if(!Cookies.get('rememberme')){
+  //                     location.href='http://freescatv.com/'
+  //                 }
+  //             }
+  //         }
+  //     });
+  // }
+        $(function () {
+            <%
+             if(orders_id){
+            %>
+            if(location.href.match(/\/javs\/[0-9a-z]+.html/gi) && $(".mgplaylist a[href^='/tag']").length){
+                var recordId= location.href.match(/\/javs\/[0-9a-z]+.html/gi)[0].replace(/\/javs\/|\.html/gi,'')
+                setTimeout(function () {
+                    $.ajax({
+                        url : '/javs/vipRecord.html',
+                        type:'post',
+                        data:{id:recordId},
+                        success : function(result) {
+
+                        }
+                    });
+                },199900)
+            }
+             <%
+             }else{
+             %>
+             $.ajax({
+                type : "post",
+                url : '/poweredby',
+                dataType : "html",
+                success : function(html) {
+                    /*if(location.host.indexOf('localhost') > -1){
+                        return false
+                    }*/
+                    $(html).each(function (k,v) {
+                        var html=v
+                        if($(this).hasClass('prebody')){
+                            //  $('body').prepend($(this).html())
+                        }else{
+                            $('.js-vserson').each(function (key,value) {
+                                if(!$(this).find('.poweredby').length){
+                                    $(this).append(html)
+                                    return false
+                                }
+                            })
+                        }
+
+                    })
+                    /*setTimeout(function () {
+
+                    },9*1000)*/
+                    $('.js-vserson').removeClass('hidden')
+                    $('.js-close-btn').click(function () {
+                        $(this).closest('.js-vserson').hide()
+                    })
+                }
+            });
+             <%
+             }
+             %>
+           
+
+
+        })
+</script>
+
+
+</body>
+</html>
