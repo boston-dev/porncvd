@@ -71,21 +71,11 @@ router.get('/sitemap.xml',async (req, res, next) => {
         }
 
     })
-    for(let key=1;key <= doc.result.totalPages;key++){
+    res.locals.gNav.forEach(v =>{
         links.push({
-            url:`/nav/all/${key}`,
+            url:`/cat/${v}/`,
         })
-    }
-    for(let key=1;key <= 1000;key++){
-        links.push({
-            url:`/hsex/list-${key}.htm`,
-        })
-    }
-    for(let key=1;key <= 387;key++){
-        links.push({
-            url:`/cc18/videos/?&page=${key}`,
-        })
-    }
+    })
 
     res.locals.navAll.forEach(v =>{
         links.push({
