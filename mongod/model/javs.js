@@ -16,7 +16,7 @@ const javsSchema = new mongoose.Schema({
     uri:{type:String,default:''},
     url:{type:String,default:''},
     relate:{type:Array,default:[]},
-    cat:{type:mongoose.Schema.Types.ObjectId,ref:'cats'},//所属分类
+    cat:{type:Array,default:[]},//所属分类
     date:{type:Number,default:new Date().getTime()},
     vipView:{type:Number,default:0},
     tag:{type:Array,default:[]},

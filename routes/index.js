@@ -276,7 +276,7 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-        type:'index'
+
     },{
         page: req.query.page || 1,
         limit:60,
@@ -297,6 +297,42 @@ router.get('/',async (req, res, next) => {
         }
        res.render('boot',result.result);
     })
+});
+router.get('/cat/:name/:p?',async (req, res, next) => {
+    let area=req.query.area,name=req.params.name
+    res.locals.gCat=name
+    const optValues = [name];
+
+    const optRegexp = [];
+    optValues.forEach(function(opt){
+            optRegexp.push(  new RegExp(opt, "i") );
+    });
+    let query={
+        $or:[
+            {cat:{$in:optRegexp}},
+            {tag:{$in:optRegexp}}
+        ]
+    }
+    let prelink=`/cat/${name}/pageTpl`
+    if(area){
+       Object.assign(query,{
+        'area':{$in:[area]}
+       })
+        prelink+=`?area=${area}`
+        res.locals.gArea=area
+    }
+    controller.init('javsModel','paginate',query,{
+        page:req.params.p || 1,
+        limit:52,
+        sort: { date: -1 },
+        prelink,
+    }).then(result =>{
+        if(req.query.ajax){
+            return  res.send( result.result);
+        }
+        res.render('boot',result.result);
+    })
+    
 });
 router.get('/rank/:hostType/:p?',async (req, res, next) => {
     let hostType=req.params.hostType,

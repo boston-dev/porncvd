@@ -50,6 +50,7 @@ const controller = require('./mongod/controller');
 const siteNav = require('./mongod/siteNav');
 const toy = require('./db/toy');
 const porn5Nav=require('./util/util').default
+const gNav = require('./nav.json');
 //netstat -aon | find "6432"  taskkill /F /pid 15640
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -127,6 +128,7 @@ app.use( async (req,res,next) => {
         return  res.redirect('/')
     }
     let arr = accepts(req).languages()
+    res.locals.gNav=gNav
     res.locals.ip= req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     let off=false
     let result={}
