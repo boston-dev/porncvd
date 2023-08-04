@@ -191,8 +191,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
        if(video.tag && video.tag.length){
             await  controller.init('javsModel','paginate',
                 {
-                tag:{$in:video.tag},
-                site:{$eq:'porn18'},
+                date:{$gt : 1690837483390},
                 },
                 {
                     limit:52,
