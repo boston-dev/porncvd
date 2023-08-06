@@ -174,7 +174,7 @@
             mutex: true,
             video: {
                 url:"<%= video.source %>"+url,
-                pic:" <%= video.img %>",
+                pic:"<%= video.source %><%= video.img %>",
                 thumbnails:" <%= video.img %>",
                 type: 'auto',
             },
