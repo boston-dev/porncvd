@@ -5,8 +5,8 @@
   "scripts": {
     "start-zh": "cross-env NODE_ENV=production PORT=6414 HOST=https://ch.porncvd.com babel-node ./bin/www",
     "dev-zh": "cross-env NODE_ENV=development PORT=6414 HOST=https://ch.porncvd.com nodemon -r dotenv/config --exec babel-node ./bin/www",
-    "start": "cross-env NODE_ENV=production PORT=4112 HOST=https://porncvd.com babel-node ./bin/www",
-    "dev": "cross-env NODE_ENV=development PORT=4112 HOST=https://porncvd.com nodemon -r dotenv/config --exec babel-node ./bin/www",
+    "start": "cross-env NODE_ENV=production PORT=4352 HOST=https://porncvd.com babel-node ./bin/www",
+    "dev": "cross-env NODE_ENV=development PORT=4352 HOST=https://porncvd.com nodemon -r dotenv/config --exec babel-node ./bin/www",
     "start-en": "cross-env NODE_ENV=production PORT=6421 HOST=https://uk.porncvd.com babel-node ./bin/www",
     "dev-en": "cross-env NODE_ENV=development PORT=6421 HOST=https://uk.porncvd.com nodemon -r dotenv/config --exec babel-node ./bin/www",
     "start-doem": "cross-env NODE_ENV=development PORT=6424 HOST=http://dome.porncvd.com babel-node ./bin/www"
