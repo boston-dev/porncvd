@@ -217,7 +217,7 @@ app.use('/cliphunter', cliphunterRouter);
 app.use('/porn5f', porn5fRouter);
 app.use('/manga', mangaRouter);
 app.use('/thudam', thudamRouter);
-app.use('/',limiter, indexRouter);
+app.use('/', indexRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/mjw', mjw);
 app.use('/paypal', paypalRouter);
