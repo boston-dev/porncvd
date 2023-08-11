@@ -1,7 +1,6 @@
 const config = require('./mongod/config');
 const configPC = require('./mongod/configPC');
 const chineseConv = require('chinese-conv');
-const rateLimiterRedisMiddleware = require('./mongod/rate');
 global.sity=(str) =>{
     if(!str){
         return ''
@@ -52,14 +51,6 @@ const siteNav = require('./mongod/siteNav');
 const toy = require('./db/toy');
 const porn5Nav=require('./util/util').default
 const gNav = require('./nav.json');
-const rateLimit = require('express-rate-limit')
-const apiLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-	// store: ... , // Use an external store for more precise rate limiting
-})
 //netstat -aon | find "6432"  taskkill /F /pid 15640
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -74,7 +65,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(rateLimiterRedisMiddleware);
+
+
 const client_id=
     process.env.NODE_ENV === 'development'?
         "AbRKegK2GX17hlrUCrn0EKN4hFhOSmHHH1OHG9Uw_nVWPktDJqrSLdi8JLAeJ0QDYm1u95b5ENme28he":
@@ -208,16 +200,16 @@ app.use( async (req,res,next) => {
     next();
 });
 //cliphunterRouter koreanbjRouter cc18Router
-app.use('/category',apiLimiter, categoryRouter);
-app.use('/cc18',apiLimiter, cc18Router);
-app.use('/hsex',apiLimiter, hsexRouter);
-app.use('/koreanbj',apiLimiter, koreanbjRouter);
-app.use('/xnxx',apiLimiter, xnxxRouter);
-app.use('/cliphunter',apiLimiter, cliphunterRouter);
-app.use('/porn5f',apiLimiter, porn5fRouter);
-app.use('/manga',apiLimiter, mangaRouter);
-app.use('/thudam,apiLimiter', thudamRouter);
-app.use('/',apiLimiter, indexRouter);
+app.use('/category', categoryRouter);
+app.use('/cc18', cc18Router);
+app.use('/hsex', hsexRouter);
+app.use('/koreanbj', koreanbjRouter);
+app.use('/xnxx', xnxxRouter);
+app.use('/cliphunter', cliphunterRouter);
+app.use('/porn5f', porn5fRouter);
+app.use('/manga', mangaRouter);
+app.use('/thudam', thudamRouter);
+app.use('/', indexRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/mjw', mjw);
 app.use('/paypal', paypalRouter);
