@@ -75,7 +75,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(rateLimiterRedisMiddleware);
-app.use(limiter)
+app.use(apiLimiter)
 const client_id=
     process.env.NODE_ENV === 'development'?
         "AbRKegK2GX17hlrUCrn0EKN4hFhOSmHHH1OHG9Uw_nVWPktDJqrSLdi8JLAeJ0QDYm1u95b5ENme28he":
