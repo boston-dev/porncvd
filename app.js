@@ -1,6 +1,7 @@
 const config = require('./mongod/config');
 const configPC = require('./mongod/configPC');
 const chineseConv = require('chinese-conv');
+const rateLimiterRedisMiddleware = require('./mongod/rate');
 global.sity=(str) =>{
     if(!str){
         return ''
@@ -65,7 +66,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(rateLimiterRedisMiddleware);
 
 const client_id=
     process.env.NODE_ENV === 'development'?
