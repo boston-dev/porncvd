@@ -75,7 +75,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(rateLimiterRedisMiddleware);
-app.use(apiLimiter)
 const client_id=
     process.env.NODE_ENV === 'development'?
         "AbRKegK2GX17hlrUCrn0EKN4hFhOSmHHH1OHG9Uw_nVWPktDJqrSLdi8JLAeJ0QDYm1u95b5ENme28he":
@@ -209,16 +208,16 @@ app.use( async (req,res,next) => {
     next();
 });
 //cliphunterRouter koreanbjRouter cc18Router
-app.use('/category', categoryRouter);
-app.use('/cc18', cc18Router);
-app.use('/hsex', hsexRouter);
-app.use('/koreanbj', koreanbjRouter);
-app.use('/xnxx', xnxxRouter);
-app.use('/cliphunter', cliphunterRouter);
-app.use('/porn5f', porn5fRouter);
-app.use('/manga', mangaRouter);
-app.use('/thudam', thudamRouter);
-app.use('/', indexRouter);
+app.use('/category',apiLimiter, categoryRouter);
+app.use('/cc18',apiLimiter, cc18Router);
+app.use('/hsex',apiLimiter, hsexRouter);
+app.use('/koreanbj',apiLimiter, koreanbjRouter);
+app.use('/xnxx',apiLimiter, xnxxRouter);
+app.use('/cliphunter',apiLimiter, cliphunterRouter);
+app.use('/porn5f',apiLimiter, porn5fRouter);
+app.use('/manga',apiLimiter, mangaRouter);
+app.use('/thudam,apiLimiter', thudamRouter);
+app.use('/',apiLimiter, indexRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/mjw', mjw);
 app.use('/paypal', paypalRouter);
