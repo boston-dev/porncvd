@@ -51,6 +51,14 @@ const siteNav = require('./mongod/siteNav');
 const toy = require('./db/toy');
 const porn5Nav=require('./util/util').default
 const gNav = require('./nav.json');
+const rateLimit = require('express-rate-limit')
+const limiter = rateLimit({
+	windowMs: 5 * 60 * 1000, // 15 minutes
+	max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+	// store: ... , // Use an external store for more precise rate limiting
+})
 //netstat -aon | find "6432"  taskkill /F /pid 15640
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -209,7 +217,7 @@ app.use('/cliphunter', cliphunterRouter);
 app.use('/porn5f', porn5fRouter);
 app.use('/manga', mangaRouter);
 app.use('/thudam', thudamRouter);
-app.use('/', indexRouter);
+app.use('/',limiter, indexRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/mjw', mjw);
 app.use('/paypal', paypalRouter);
