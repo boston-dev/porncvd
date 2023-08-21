@@ -158,7 +158,7 @@
                 <%
         }
         %>
-        var url="<%= video.source %>"+url
+        var url="<%= video.source %>"+document.querySelector('#video-in').value
         var types= $('#video-in').attr('data-type')
         var time=0
         var dp = new DPlayer({
