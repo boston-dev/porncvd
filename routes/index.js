@@ -131,9 +131,7 @@ router.get('/tag/:name/:p?',async (req, res, next) => {
     const reg = new RegExp('台灣', 'i')
     let name=req.params.name
     let query={
-        $or:[
-            { tag:{$in:[name]}},
-        ]
+        tag:{$in:[name]}
     }
     console.log(name,'name')
     if(name==='台灣'){
@@ -296,9 +294,7 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
             optRegexp.push(  new RegExp(opt, "i") );
     });
     let query={
-        $or:[
-            {tag:{$in:optRegexp}}
-        ]
+        tag:{$in:optRegexp}
     }
     let prelink=`/cat/${name}/pageTpl`
     if(area){
