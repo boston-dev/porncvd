@@ -150,7 +150,7 @@
             }
         }
         var whitelist = ['https://mac.bvujarg.xyz','https://m.bvujarg.xyz','https://cdn.bvujarg.xyz','https://bvujarg.xyz']
-        var url=document.querySelector('#video-in').value
+        
             <%
         if(video.site == 'avday'){
         %>
@@ -158,6 +158,7 @@
                 <%
         }
         %>
+        var url="<%= video.source %>"+url
         var types= $('#video-in').attr('data-type')
         var time=0
         var dp = new DPlayer({
@@ -173,7 +174,7 @@
             volume: 0.7,
             mutex: true,
             video: {
-                url:"<%= video.source %>"+url,
+                url:url,
                 pic:"<%= video.source %><%= video.img %>",
                 thumbnails:" <%= video.img %>",
                 type: 'auto',
