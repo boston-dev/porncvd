@@ -266,13 +266,11 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-
     },{
         page: req.query.page || 1,
         limit:60,
         sort: { date: -1 },
         prelink:'/?page=pageTpl',
-        populate: 'cat',
     }).then(result =>{
         if(+process.env.PORT === 6414){
             result.result=JSON.parse(JSON.stringify(result.result))
@@ -299,7 +297,6 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
     });
     let query={
         $or:[
-            {cat:{$in:optRegexp}},
             {tag:{$in:optRegexp}}
         ]
     }
