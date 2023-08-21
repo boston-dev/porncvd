@@ -38,22 +38,27 @@
                         <a href="/">
                             首页
                         </a></li>
-                        <li
-                        class="nav-list">
-                    <a href="https://avdcd.com/" target="_blank">
-                        大陸
-                    </a></li>
-                    <li
-                    target="_blank"
-                    class="nav-list">
-                    <a  href="https://uscvd.com/">
-                        歐美
-                    </a></li>
                     <%
                     for(var keys=0;keys<gNav.filter((v,k) => k<=8).length;keys++){
                     let item = gNav[keys];
                     %>
-                    <li class="nav-list"><a class="js-nav-head " href="/cat/<%=item%>/"><%=item%></a></li>
+                            <%
+                            if(item.href){
+                            %>
+                            <li class="nav-list"><a class="js-nav-head "
+                                target="_blank" 
+                                href="<%=item.href%>"
+                                ><%=item.text%></a></li>
+                            <%
+                            }else{
+                            %>
+                            <li class="nav-list"><a class="js-nav-head "
+    
+                                href="/cat/<%=item%>/"
+                                ><%=item%></a></li>
+                            <%
+                            }
+                            %>
                     <%
                     }
                     %>
