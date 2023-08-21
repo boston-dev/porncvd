@@ -131,7 +131,9 @@ router.get('/tag/:name/:p?',async (req, res, next) => {
     const reg = new RegExp('台灣', 'i')
     let name=req.params.name
     let query={
-        tag:{$in:[name]}
+        $or:[
+            { tag:{$in:[name]}},
+        ]
     }
     console.log(name,'name')
     if(name==='台灣'){
