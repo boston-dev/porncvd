@@ -130,9 +130,9 @@ const comCotroller = {
             })
         })
     },
-    async findOne(model,query,option){
+    async findOne(model,query,option={}){
         return new Promise((resolve, reject) => {
-            model.findOne(query,(e,d) =>{
+            model.findOne(query,option,(e,d) =>{
                 if(e){
 
                     return resolve({

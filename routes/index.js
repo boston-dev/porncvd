@@ -16,6 +16,7 @@ const axios =require('axios')
 const iconv = require('iconv-lite');
 const siteNav = require('../mongod/siteNav');
 const controller = require('../mongod/controller');
+const select='title img source'
 let category=process.env.NODE_ENV == 'development' ? category=[
     {cat:'60ec619309d38db869ca0c1b',type:'popular'},{cat:'60ec619309d38db869ca0c1c',type:'exclusive'}
 ] : [
@@ -170,7 +171,17 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     if(req.url.indexOf('/javs/realte.html') > -1){
         return  res.redirect('/')
     }
-    controller.init('javsModel','findOne',{_id:req.params.id}).then( async result =>{
+    controller.init('javsModel','findOne',{_id:req.params.id},
+    {
+        url:1,
+        keywords:1,
+        desc:1,
+        title:1,
+        source:1,
+        img:1,
+        tag:1,
+    }
+    ).then( async result =>{
         if(!result.result){
             return  res.redirect('/')
         }
@@ -195,6 +206,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
                 },
                 {
                     limit:52,
+                    select,
                 }
                 ).then( async resTag =>{
                 video.docs=resTag.result.docs
@@ -271,6 +283,7 @@ router.get('/',async (req, res, next) => {
         limit:60,
         sort: { date: -1 },
         prelink:'/?page=pageTpl',
+        select,
     }).then(result =>{
         if(+process.env.PORT === 6414){
             result.result=JSON.parse(JSON.stringify(result.result))
