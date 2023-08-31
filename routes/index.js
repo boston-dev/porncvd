@@ -418,25 +418,7 @@ router.get('/english',async (req, res, next) => {
     })
 });
 router.get('/english/nav/:cat/:p?',async (req, res, next) => {
-   return  res.send('ok')
-    let data= await controller.init('catsModel','findOne',{href:`/videos/${req.params.cat}`})
-    let query={}
-
-    if(data.result && data.result._id){
-        query={cat:data.result._id}
-    }
-    controller.init('javsModel','paginate',query,{
-        page: req.params.p || 1,
-        limit:52,
-        sort: { date: -1 },
-        prelink:`/nav/${req.params.cat}/pageTpl`,
-        populate: 'cat',
-    }).then(result =>{
-        if(req.query.ajax){
-           return  res.send( result.result);
-        }
-        res.render('indexMongo',result.result);
-    })
+  res.redirect('/')
 });
 router.post('/nav/translateData.html',async (req, res, next) => {
     controller.init('javsModel','paginate',req.body.query,req.body.options).then(result =>{
