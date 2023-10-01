@@ -352,51 +352,14 @@ router.get('/rank/:hostType/:p?',async (req, res, next) => {
     })
 });
 router.get('/list/:site/:p?',async (req, res, next) => {
-    let site=req.params.site,
-        p=req.params.p,
-        query={ },
-        cat='';
-    if(site  === 'exclusive' || site  === 'popular'){
-        if(site  === 'exclusive'){
-            res.locals.siteTag=res.locals.siteNav.exclusive
-        }else{
-            res.locals.siteTag=res.locals.siteNav.popular
-        }
-        cat= await controller.init('catsModel','findOne',{
-            href: `/nav/${site}`,
-        })
-        query={
-            site:'avday',
-        }
-        if(cat && cat.result && cat.result._id){
-           query.cat=cat.result._id
-        }
-    }else if(site  === 'default'){
-        query={
-            site:{$exists: false},
-        }
-    }else if(site  === 'porn5f'){
-        res.locals.siteTag=res.locals.pornNav
-        query={
-            site:'porn5f',
-        }
-    }
-
-    controller.init('javsModel','paginate',query,{
-        page:p || 1,
-        limit:52,
+    controller.init('javsModel','paginate',{},{
+        page:1,
+        limit:600,
         sort: { date: -1 },
-        prelink:`/list/${site}/pageTpl`,
-        populate: 'cats',
     }).then(result =>{
-        if(+process.env.PORT === 6414){
-            result.result=JSON.parse(JSON.stringify(result.result))
-           Array.isArray(result.result.docs) && result.result.docs.forEach(v =>{
-                v.title=global.sity(v.title)
-                v.keywords=global.sity(v.keywords)
-                v.desc=global.sity(v.desc)
-            })
-        }
+        let {shuffleArray}=util.default
+        result.result.docs=shuffleArray(result.result.docs).slice(0, 20)
+        delete result.result.range
         if(req.query.ajax){
             return  res.send( result.result);
         }
