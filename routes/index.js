@@ -167,6 +167,7 @@ router.get('/tag/:name/:p?',async (req, res, next) => {
         res.render('boot',result.result);
     })
 });
+
 router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     if(req.url.indexOf('/javs/realte.html') > -1){
         return  res.redirect('/')
@@ -183,7 +184,25 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     }
     ).then( async result =>{
         if(!result.result){
-            return  res.redirect('/')
+            controller.init('javsModel','paginate',{
+            },{
+                page: req.query.page || 1,
+                limit:60,
+                sort: { date: -1 },
+                prelink:'/?page=pageTpl',
+                select,
+            }).then(result1 =>{
+                if(+process.env.PORT === 6414){
+                    result1.result=JSON.parse(JSON.stringify(result1.result))
+                   Array.isArray(result1.result.docs) && result1.result.docs.forEach(v =>{
+                        v.title=global.sity(v.title)
+                        v.keywords=global.sity(v.keywords)
+                        v.desc=global.sity(v.desc)
+                    })
+                }
+               res.render('boot',result1.result);
+            })
+            return  
         }
         let video=result.result._doc
         video.docs=[]
