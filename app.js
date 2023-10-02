@@ -172,7 +172,7 @@ app.use( async (req,res,next) => {
     res.locals.listVip=[]
     res.locals.orders_id=req.cookies.orders_id ||''
     if(!global.porn &&(req.url.indexOf('english')>-1 || req.url.indexOf('thudam')>-1 || req.url.indexOf('cliphunter')>-1)){
-        res.redirect('https://uk.porncvd.com/')
+        res.redirect('/')
         return  false
     }
     console.log(res.locals.tplLang,12323)

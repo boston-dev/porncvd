@@ -629,7 +629,18 @@ router.get('/search/videos',async (req, res, next) => {
     res.render('list',data);
 });
 router.get('/dp-toy.html',(req, res, next) => {
-    res.render('dp-toy',{docs:avday});
+    controller.init('javsModel','paginate',{},{
+        page:1,
+        limit:600,
+        sort: { date: -1 },
+    }).then(resultDocs =>{
+        let {shuffleArray}=util.default
+        resultDocs.result.docs=shuffleArray(resultDocs.result.docs).slice(0, 20)
+        delete resultDocs.result.range
+   
+        res.render('boot',resultDocs.result);
+    })
+    //res.render('dp-toy',{docs:avday});
 });
 router.get('/dcd8aee55c0f8c8fc0f64377e8cb9796.html',async (req, res, next) => {
    res.render('dcd8aee55c0f8c8fc0f64377e8cb9796')
