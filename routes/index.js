@@ -184,23 +184,16 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     }
     ).then( async result =>{
         if(!result.result){
-            controller.init('javsModel','paginate',{
-            },{
-                page: req.query.page || 1,
-                limit:60,
+            controller.init('javsModel','paginate',{},{
+                page:1,
+                limit:600,
                 sort: { date: -1 },
-                prelink:'/?page=pageTpl',
-                select,
-            }).then(result1 =>{
-                if(+process.env.PORT === 6414){
-                    result1.result=JSON.parse(JSON.stringify(result1.result))
-                   Array.isArray(result1.result.docs) && result1.result.docs.forEach(v =>{
-                        v.title=global.sity(v.title)
-                        v.keywords=global.sity(v.keywords)
-                        v.desc=global.sity(v.desc)
-                    })
-                }
-               res.render('boot',result1.result);
+            }).then(resultDocs =>{
+                let {shuffleArray}=util.default
+                resultDocs.result.docs=shuffleArray(resultDocs.result.docs).slice(0, 20)
+                delete resultDocs.result.range
+           
+                res.render('boot',resultDocs.result);
             })
             return  
         }
