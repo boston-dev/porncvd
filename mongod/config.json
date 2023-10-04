@@ -23,13 +23,13 @@
        }
  ],
   "paypalDev": {
-    "client_id": "AbRKegK2GX17hlrUCrn0EKN4hFhOSmHHH1OHG9Uw_nVWPktDJqrSLdi8JLAeJ0QDYm1u95b5ENme28he",
-    "client_secret": "EEluyZU1HUUt8opsaKj8kbeLTEB_6GW_bgwyDAV3pbxbcRLIcQF43d_O1cR5y59aBIU73pFbnf23Jx2v",
-    "PAYPAL_API": "https://api-m.sandbox.paypal.com"
+    "client_id": "",
+    "client_secret": "",
+    "PAYPAL_API": ""
   },
   "paypal": {
-    "client_id": "AfswxMZmjC9gryI3YN0PdnRM_CLJ_NYShLoaVEMhse0i4GxHm4wh6DvjU3pZWoUlzCuacj0BLbl94KHP",
-    "client_secret": "EHHs-91f0zoAcL18j05ZdZp_9ObaFufvJtuKsZs7wVxgswKVjAWBtqr2uIlCEry-dmZnLBB1gBnwpBOV",
-    "PAYPAL_API": "https://api-m.paypal.com"
+    "client_id": "",
+    "client_secret": "",
+    "PAYPAL_API": ""
   }
 }

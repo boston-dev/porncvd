@@ -67,10 +67,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-const client_id=
-    process.env.NODE_ENV === 'development'?
-        "AbRKegK2GX17hlrUCrn0EKN4hFhOSmHHH1OHG9Uw_nVWPktDJqrSLdi8JLAeJ0QDYm1u95b5ENme28he":
-        "AfswxMZmjC9gryI3YN0PdnRM_CLJ_NYShLoaVEMhse0i4GxHm4wh6DvjU3pZWoUlzCuacj0BLbl94KHP";
+const client_id='';
 // brew services start mongodb/brew/mongodb-community
 //https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 ///bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
