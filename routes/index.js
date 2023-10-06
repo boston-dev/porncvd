@@ -319,6 +319,31 @@ router.get('/',async (req, res, next) => {
        res.render('boot',result.result);
     })
 });
+router.get('/genre/:p?',async (req, res, next) => {
+    const page=req.params.p || 1
+    controller.init('javsModel','paginate',{
+        site:{$eq:'hanime'}
+    },{
+        page,
+        limit:40,
+        sort: { date: -1 },
+        prelink:'/genre/pageTpl',
+        select,
+    }).then(result =>{
+        if(+process.env.PORT === 6414){
+            result.result=JSON.parse(JSON.stringify(result.result))
+           Array.isArray(result.result.docs) && result.result.docs.forEach(v =>{
+                v.title=global.sity(v.title)
+                v.keywords=global.sity(v.keywords)
+                v.desc=global.sity(v.desc)
+            })
+        }
+        if(req.query.ajax){
+            return  res.send( result.result);
+        }
+       res.render('boot',result.result);
+    })
+});
 router.get('/cat/:name/:p?',async (req, res, next) => {
     let area=req.query.area,name=req.params.name
     res.locals.gCat=name
