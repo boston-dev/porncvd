@@ -74,7 +74,7 @@ router.get('/sitemap.xml',async (req, res, next) => {
     })
     res.locals.gNav.forEach(v =>{
         links.push({
-            url:`/cat/${v}/`,
+            url:v.href  ? v.href :`/cat/${v}/`,
         })
     })
 
