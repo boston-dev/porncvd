@@ -201,7 +201,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
         video.docs=[]
         res.locals.meta={
             "title": video.title,
-            "keywords":  video.keywords,
+            "keywords":  video.keywords ||`${video.tag}`,
             "desc":  video.desc,
             "title_en": video.title_en,
             "keywords_en":  video.keywords_en,
@@ -211,11 +211,18 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
            return  res.redirect('/')
        }
        let v={}
+       if(video.site == 'hanime'){
+            res.locals.curSite='hanime'
+        }
        if(video.tag && video.tag.length){
-            await  controller.init('javsModel','paginate',
-                {
+            const relateDoc={
                 date:{$gt : 1690837483390},
-                },
+            }
+            if(video.site !== 'hanime'){
+                relateDoc.site={$ne:'hanime'}
+            }
+            await  controller.init('javsModel','paginate',
+                relateDoc,
                 {
                     limit:52,
                     select,
@@ -290,6 +297,7 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
+        site:{$ne:'hanime'}
     },{
         page: req.query.page || 1,
         limit:60,
@@ -321,7 +329,8 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
             optRegexp.push(  new RegExp(opt, "i") );
     });
     let query={
-        tag:{$in:optRegexp}
+        tag:{$in:optRegexp},
+        site:{$ne:'hanime'}
     }
     let prelink=`/cat/${name}/pageTpl`
     if(area){

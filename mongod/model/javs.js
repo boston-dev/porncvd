@@ -24,6 +24,7 @@ const javsSchema = new mongoose.Schema({
     path:{type:String,default:''},
     disable:{type:Number,default:0},
     source:{type:String,default:''},
+    actor:{type:Array,default:[]}, 
 });
 javsSchema.index({ path: -1 });
 javsSchema.index({ title: -1 });

@@ -138,7 +138,7 @@ app.use( async (req,res,next) => {
     //     }
     // }
     res.locals.porn5Nav=porn5Nav
-
+    res.locals.curSite=''
     res.locals.siteNav=siteNav
     res.locals.siteTag=siteNav.exclusive
     res.locals.siteHost=siteNav.host
