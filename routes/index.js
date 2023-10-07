@@ -220,6 +220,8 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             }
             if(video.site !== 'hanime'){
                 relateDoc.site={$ne:'hanime'}
+            }else{
+                relateDoc.site={$eq:'hanime'}
             }
             await  controller.init('javsModel','paginate',
                 relateDoc,
