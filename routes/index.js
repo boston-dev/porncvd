@@ -148,7 +148,7 @@ router.get('/tag/:name/:p?',async (req, res, next) => {
     res.locals.avday='avday'
     controller.init('javsModel','paginate',query,{
         page:req.params.p || 1,
-        limit:1,
+        limit:40,
         sort: { date: -1 },
         prelink:`/tag/${name}/pageTpl${catStr}`,
         populate: 'cat',
