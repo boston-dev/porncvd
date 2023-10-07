@@ -38,7 +38,11 @@
                         <a href="/">
                             首页
                         </a></li>
+
                     <%
+                    if(curSite){
+                        gNav=genreNav
+                    }
                     for(var keys=0;keys<gNav.filter((v,k) => k<=8).length;keys++){
                     let item = gNav[keys];
                     %>
@@ -54,7 +58,7 @@
                             %>
                             <li class="nav-list"><a class="js-nav-head "
     
-                                href="/cat/<%=item%>/"
+                                href="/cat/<%=item%>/<%=curSite ? `?site=${curSite}` : ''%>"
                                 ><%=item%></a></li>
                             <%
                             }
@@ -75,7 +79,6 @@
     <div style="background-color: #1a1a1a;width: 100%">
         <div style="padding: 8px 0;flex-wrap: wrap" class="d-flex  justify-content-center">
             <ul class=" d-flex  align-items-center" style="overflow-x: auto;">
-
                 <%
                 let navOther= gNav.filter((v,k) => k>8);
                 for(let keys=0;keys<navOther.length;keys++){
@@ -110,7 +113,12 @@
     </div>
 </header>
 
-
+<script>
+    var docs=[]
+    $('#main-nav .nav-desktop-items').each(function(){
+        docs.push($(this).text().trim())
+    })
+</script>
 <div class="container container-content no-cate-container-content" >
     <div class="main mobile-main">
          <%- include pic.html%>

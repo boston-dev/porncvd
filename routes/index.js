@@ -77,7 +77,11 @@ router.get('/sitemap.xml',async (req, res, next) => {
             url:v.href  ? v.href :`/cat/${v}/`,
         })
     })
-
+    res.locals.genreNav.forEach(v =>{
+        links.push({
+            url:`/cat/${v}/?site=hanime`,
+        })
+    })
     res.locals.navAll.forEach(v =>{
         links.push({
             url:v.href,
@@ -317,6 +321,7 @@ router.get('/',async (req, res, next) => {
 });
 router.get('/genre/:p?',async (req, res, next) => {
     const page=req.params.p || 1
+    res.locals.curSite='hanime'
     controller.init('javsModel','paginate',{
         site:{$eq:'hanime'}
     },{
@@ -362,6 +367,7 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
         res.locals.gArea=area
     }
     if(site){
+        res.locals.curSite=site
         Object.assign(query,{
             site
         })

@@ -51,6 +51,7 @@ const siteNav = require('./mongod/siteNav');
 const toy = require('./db/toy');
 const porn5Nav=require('./util/util').default
 const gNav = require('./nav.json');
+const genreNav = require('./mongod/genreNav.json');
 //netstat -aon | find "6432"  taskkill /F /pid 15640
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -138,6 +139,7 @@ app.use( async (req,res,next) => {
     //     }
     // }
     res.locals.porn5Nav=porn5Nav
+    res.locals.genreNav=genreNav
     res.locals.curSite=''
     res.locals.siteNav=siteNav
     res.locals.siteTag=siteNav.exclusive
