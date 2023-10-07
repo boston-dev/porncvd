@@ -81,6 +81,7 @@
         <div class="js-handler my-2">
             <button type="button" class="btn js-replay btn-outline-primary"><%=tplLang ? 'can not play? Click to replay': '無法播放？點擊重播'%></button>
         </div>
+        <%=curSite%>123
         <%
         if(video.tag && video.tag){
         %>
@@ -88,7 +89,7 @@
             <%
             for(let k=0;k<video.tag.length;k++){
             %>
-            <a href="/tag/<%=video.tag[k]%>/" class="btn my-1 btn-secondary btn-sm"><%=video.tag[k]%></a>
+            <a href="/tag/<%=video.tag[k]%>/<% if(curSite){%>?site=<%=curSite%><%}%>" class="btn my-1 btn-secondary btn-sm"><%=video.tag[k]%></a>
 
             <%
             }

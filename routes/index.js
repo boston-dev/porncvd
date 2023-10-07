@@ -134,29 +134,21 @@ router.get('/tag/:name/:p?',async (req, res, next) => {
     let query={
         $or:[
             { tag:{$in:[name]}},
-        ]
+        ],
+        site:{$ne:'avday'},
     }
-    console.log(name,'name')
     if(name==='台灣'){
         query.$or=query.$or.concat([{tag:{$in:['台灣']}},{keywords : {$regex : reg}},{title : {$regex : reg}},])
       }
-    let cat=req.query.cat,catStr='';
-    if(cat){
-        catStr=`?cat=${cat}`
-        if(siteNav[`${cat}`]){
-            res.locals.siteTag=siteNav[`${cat}`]
-        }
-        cat= await controller.init('catsModel','findOne',{
-            href: `/nav/${cat}`,
-        })
-        if(cat && cat.result && cat.result._id){
-            query.cat=cat.result._id
-        }
+    let catStr='',site=req.query.site;
+    if(site){
+        catStr=`?site=${site}`
+        Object.assign(query,{site})
     }
     res.locals.avday='avday'
     controller.init('javsModel','paginate',query,{
         page:req.params.p || 1,
-        limit:52,
+        limit:1,
         sort: { date: -1 },
         prelink:`/tag/${name}/pageTpl${catStr}`,
         populate: 'cat',
@@ -181,6 +173,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
         source:1,
         img:1,
         tag:1,
+        site:1,
     }
     ).then( async result =>{
         if(!result.result){
@@ -210,6 +203,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
        if(video.disable === 1){
            return  res.redirect('/')
        }
+
        let v={}
        if(video.site == 'hanime'){
             res.locals.curSite='hanime'
@@ -347,7 +341,7 @@ router.get('/genre/:p?',async (req, res, next) => {
     })
 });
 router.get('/cat/:name/:p?',async (req, res, next) => {
-    let area=req.query.area,name=req.params.name
+    let area=req.query.area,name=req.params.name,site=req.query.site
     res.locals.gCat=name
     const optValues = [name];
 
@@ -366,6 +360,13 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
        })
         prelink+=`?area=${area}`
         res.locals.gArea=area
+    }
+    if(site){
+        Object.assign(query,{
+            site
+        })
+        prelink.includes('?') ? prelink+=`&site=${site}` : prelink+=`?site=${site}`
+        
     }
     controller.init('javsModel','paginate',query,{
         page:req.params.p || 1,
