@@ -72,146 +72,12 @@ const client_id='';
 // brew services start mongodb/brew/mongodb-community
 //https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 ///bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
-mongoose.connect('mongodb://localhost:27017/porn5f', {
+mongoose.connect('mongodb://localhost:27017/zhLand', {
     useNewUrlParser: true,
-    useUnifiedTopology: true  }).then(res => console.log('porn5f'))
-const allHost=['porncvd','localhost']
-app.use( async (req,res,next) => {
-    if(req.url.indexOf('.m3u8') > -1 && allHost.findIndex(v => v.indexOf(req.host)) > -1){
-        let siteUrl=req.query.siteUrl,m3u8Url=siteUrl+req.url.replace(/\?.+/gi,'');
-        porn18.getVideoM3u8(m3u8Url).then(responseGet =>{
-            let send,response=responseGet
-            if(response.toString().indexOf('.ts') > -1){
-                send= response.toString().replace(/\.ts/gi,'.ts?siteUrl='+siteUrl)
-            }else if(response.toString().indexOf('.m3u8') > -1){
+    useUnifiedTopology: true  }).then(res => console.log('zhLand'))
 
-                send=response.toString().replace(/\.m3u8/gi,'.m3u8?siteUrl='+siteUrl)
-            }
-            return res.send(send)
-        })
-
-        // needle.get(m3u8Url, function(error, response) {
-        //     if (error && response.statusCode != 200){
-        //         return res.send('error')
-        //     }
-        //     let send
-        //     if(response.body.toString().indexOf('.ts') > -1){
-        //         send= response.body.toString().replace(/\.ts/gi,'.ts?siteUrl='+siteUrl)
-        //     }else if(response.body.toString().indexOf('.m3u8') > -1){
-        //
-        //         send=response.body.toString().replace(/\.m3u8/gi,'.m3u8?siteUrl='+siteUrl)
-        //     }
-        //     return res.send(send)
-        // });
-        return  false
-    }
-    if(req.url.indexOf('.ts') > -1 && allHost.findIndex(v => v.indexOf(req.host)) > -1){
-        let siteUrl=req.query.siteUrl,m3u8Url=siteUrl+req.url.replace(/\?.+/gi,'');
-        // needle.get(m3u8Url, function(error, response) {
-        //     console.log(error)
-        //     if (!error && response.statusCode == 200){
-        //         res.send(response.body)
-        //     }else{
-        //         res.send('error')
-        //     }
-        //
-        // });
-        porn18.getVideoM3u8(m3u8Url).then(response =>{
-            res.send(response)
-        })
-
-        return  false
-    }
-    if(req.url.indexOf('/cc18/') > -1){
-        return  res.redirect('/')
-    }
-    let arr = accepts(req).languages()
-    res.locals.gNav=gNav
-    res.locals.ip= req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    let off=false
-    let result={}
-    let disable=['zh-cn','ko-kr']
-    // if(Array.isArray(arr) && arr.filter(v => disable.includes(v.toLowerCase())).length){
-    //     if(req.url.indexOf('rememberme') > -1 || req.cookies.rememberme){
-    //         res.cookie('rememberme', 1, { expires:  new Date(Date.now() + 100000000*100000),path: '/' , httpOnly: false});
-    //     }else{
-    //         return  res.send(500)
-    //     }
-    // }
-    res.locals.porn5Nav=porn5Nav
-    res.locals.genreNav=genreNav
-    res.locals.curSite=''
-    res.locals.siteNav=siteNav
-    res.locals.siteTag=siteNav.exclusive
-    res.locals.siteHost=siteNav.host
-    res.locals.avday='avday'
-    res.locals.porn5filter=porn5filter
-    res.locals.porn5filter_en=porn5filter_en
-    res.locals.navAll=javNav.nav
-    res.locals.cliphunterNav=cliphunterNav
-    res.locals.tplBase=''
-    res.locals.tplcliphunter='/cliphunter'
-    res.locals.thudam=''
-    res.locals.tplLang=global.porn
-    res.locals.HOST=global.HOST
-    res.locals.navSize=global.porn ? 8 : 8
-    res.locals.pornNav=pornNav
-    res.locals.ordersList=config.ordersList
-    res.locals.ordersListpC=configPC.ordersList
-    res.locals.shopSiteid='siteid=268'
-    res.locals.toy=toy
-    
-    // let deviceAgent = req.headers["user-agent"].toLowerCase();
- 
-    
-    // if(!deviceAgent.match(/(iphone|ipod|ipad|android|symbianos|windows phone)/)){
-    //     res.locals.ordersList=configPC.ordersList
-    // }  
-    res.locals.client_id=client_id
-    res.locals.listVip=[]
-    res.locals.orders_id=req.cookies.orders_id ||''
-    if(!global.porn &&(req.url.indexOf('english')>-1 || req.url.indexOf('thudam')>-1 || req.url.indexOf('cliphunter')>-1)){
-        res.redirect('/')
-        return  false
-    }
-    console.log(res.locals.tplLang,12323)
-    res.locals.meta={
-        "title": "porncvd - 素人av/免費A片/流出/性愛自拍/素人/成人無碼/免費成人/台灣自拍",
-        "keywords": "上萬免費在線A片，最新番號中文字幕、無碼流出、Hentai、色情動漫、JAV、國產自拍、做愛av、素人av、免費A片、流出、性愛自拍、素人、成人無碼、免費成人、台灣自拍，出處你懂的",
-        "desc": "上萬免費在線A片，最新番號中文字幕、無碼流出、Hentai、色情動漫、JAV、國產自拍、做愛av、素人av、免費A片、流出、性愛自拍、素人、成人無碼、免費成人、台灣自拍，出處你懂的",
-        "title_zh": "porncvd - 素人av/免费A片/流出/性爱自拍/素人/成人无码/免费成人/台湾自拍",
-        "keywords_zh": "上万免费在线A片，最新番号中文字幕、无码流出、Hentai、色情动漫、JAV、国产自拍、做爱av、素人av、免费A片、流出、性爱自拍、素人、成人无码、免费成人、台湾自拍，出处你懂的",
-        "desc_zh": "上万免费在线A片，最新番号中文字幕、无码流出、Hentai、色情动漫、JAV、国产自拍、做爱av、素人av、免费A片、流出、性爱自拍、素人、成人无码、免费成人、台湾自拍，出处你懂的",
-        "title_en":'porncvd-Amateur AV/Free Porn/Outflow/Sex Selfie/Amateur/Uncensored Adult/Free Adult/Taiwan Selfie',
-        "keywords_en": 'Tens of thousands of free online porn videos, the latest Chinese subtitles, uncensored streaming, Hentai, porn anime, JAV, domestic selfies, sex av, amateur av, free porn, streaming, sex selfies, amateur, adult uncensored, free adult, Taiwan Selfie, you know the source',
-        "desc_en": 'Tens of thousands of free online porn videos, the latest Chinese subtitles, uncensored streaming, Hentai, porn anime, JAV, domestic selfies, sex av, amateur av, free porn, streaming, sex selfies, amateur, adult uncensored, free adult, Taiwan Selfie, you know the source',
-    }
-    if(+process.env.PORT === 6414){
-        res.locals.meta={
-            "title": "porncvd - 素人av/免费A片/流出/性爱自拍/素人/成人无码/免费成人/台湾自拍",
-            "keywords": "上万免费在线A片，最新番号中文字幕、无码流出、Hentai、色情动漫、JAV、国产自拍、做爱av、素人av、免费A片、流出、性爱自拍、素人、成人无码、免费成人、台湾自拍，出处你懂的",
-            "desc": "上万免费在线A片，最新番号中文字幕、无码流出、Hentai、色情动漫、JAV、国产自拍、做爱av、素人av、免费A片、流出、性爱自拍、素人、成人无码、免费成人、台湾自拍，出处你懂的",
-        }
-    }
-    res.locals.page=[]
-    res.locals.filter=[]
-    res.locals.frends=frends
-    next();
-});
-//cliphunterRouter koreanbjRouter cc18Router
-app.use('/category', categoryRouter);
-app.use('/cc18', cc18Router);
-app.use('/hsex', hsexRouter);
-app.use('/koreanbj', koreanbjRouter);
-app.use('/xnxx', xnxxRouter);
-app.use('/cliphunter', cliphunterRouter);
-app.use('/porn5f', porn5fRouter);
-app.use('/manga', mangaRouter);
-app.use('/thudam', thudamRouter);
 app.use('/', indexRouter);
 app.use('/users',cors(), usersRouter);
-app.use('/mjw', mjw);
-app.use('/paypal', paypalRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -222,18 +88,6 @@ app.use(async  (err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-
-  if(process.env.NODE_ENV !== 'development'){
-      let video={}
-      controller.init('javsModel','aggregate',[
-          { $sample: { size:50 } }
-      ]).then(data =>{
-          video.docs=data.result
-          res.render('boot',{...video});
-      })
-      return false
-  }
   res.status(err.status || 500);
   res.render('error');
 });
