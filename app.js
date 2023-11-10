@@ -2,11 +2,12 @@ const config = require('./mongod/config');
 const configPC = require('./mongod/configPC');
 var thumbzillaRouter = require('./routes/thumbzilla');
 const chineseConv = require('chinese-conv');
+const fileUpload = require('express-fileupload');
 global.sity=(str) =>{
-    if(!str){
-        return ''
-    }
-    str= chineseConv.sify(str) 
+    // if(!str){
+    //     return ''
+    // }
+    // str= chineseConv.sify(str) 
     return str
 }
 global.porn=''
@@ -66,6 +67,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -76,7 +78,10 @@ const client_id='';
 mongoose.connect('mongodb://localhost:27017/zhLand', {
     useNewUrlParser: true,
     useUnifiedTopology: true  }).then(res => console.log('zhLand'))
-
+app.use(async (req, res, next) => {
+    Object.assign(res.locals, { globalController: controller, globalConfig: config })
+    next()
+})
 app.use('/', indexRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/thumbzilla',thumbzillaRouter);

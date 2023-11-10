@@ -297,7 +297,7 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-        site:{$ne:'hanime'}
+        
     },{
         page: req.query.page || 1,
         limit:60,

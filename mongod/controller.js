@@ -116,8 +116,9 @@ const comCotroller = {
     async create(model,query,option){
         return new Promise((resolve, reject) => {
             model.create(query,(e,d) =>{
+                console.log(e,'-------------')
                 if(e){
-                    console.log(e)
+                   
                     return resolve({
                         ...responeTpl,
                         code:400,
