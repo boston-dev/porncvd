@@ -159,7 +159,10 @@
                 <%
         }
         %>
-        var url="<%= video.source %>"+document.querySelector('#video-in').value
+        var url=document.querySelector('#video-in').value
+        url= url.indexOf('http') == -1 ? "<%= video.source %>"+url : url
+        var img="<%= video.img %>"
+        img=img.indexOf('http') == -1 ? "<%= video.source %>"+img : img
         var types= $('#video-in').attr('data-type')
         var time=0
         var dp = new DPlayer({
@@ -176,8 +179,8 @@
             mutex: true,
             video: {
                 url:url,
-                pic:"<%= video.source %><%= video.img %>",
-                thumbnails:" <%= video.img %>",
+                pic:img,
+                thumbnails:img,
                 type: 'auto',
             },
         });
