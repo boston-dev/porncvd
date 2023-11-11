@@ -116,8 +116,8 @@ router.post('/downTs', async (req, res, next) => {
     fs.mkdirSync(uploadPath);
   }
   const fileNme=(name ||req.files.ts.name)
-  console.log(req.files.ts)
- fs.writeFile(`${uploadPath}${fileNme}` ,req.files.ts.data,  function(err) {
+  const base64Data = `data:image/${req.body.imgFix};base64,${req.files.ts.data.toString('base64')}`
+ fs.writeFile(`${uploadPath}${fileNme}` ,base64Data,  function(err) {
   res.send(`/${file}/${fileNme}`) 
   if (err) {
         return console.error(err);
