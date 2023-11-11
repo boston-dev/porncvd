@@ -25,27 +25,9 @@ var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 var logger = require('morgan');
 const accepts = require('accepts');
-var mangaRouter = require('./routes/manga');
-var xnxxRouter = require('./routes/xnxx');
-var thudamRouter = require('./routes/thudam');
+var apiRouter = require('./routes/api');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var porn5fRouter = require('./routes/porn5f');
-var koreanbjRouter = require('./routes/koreanbj');
-var hsexRouter = require('./routes/hsex');
-const paypalRouter = require('./routes/paypal');
-var cc18Router = require('./routes/18cc');
-var cliphunterRouter = require('./routes/cliphunter');
-const categoryRouter = require('./routes/category');
-const axios =require('axios')
-const mjw = require('./routes/mjw');
-const frends = require('./db/console');
-const porn18 = require('./db/18cc');
-const porn5filter=require('./db/tagAll')
-const porn5filter_en=require('./db/tagAllTran_en.json')
-const javNav = require('./db/towCat');
-const cliphunterNav = require('./db/cliphunter.json');
-const pornNav = require('./db/porn5filter');
 var app = express();
 const mongoose = require('mongoose');
 var cors = require('cors')
@@ -100,7 +82,7 @@ app.use(function (req, res, next) {
     }
   }); 
  app.use(async (req, res, next) => {
-    if(req.path.endsWith('.txt')){
+    if(req.path.endsWith('.txt') && !req.path.includes('robots.txt')){
         const uploadPath =path.join(__dirname,`./upload/${req.path}`) ;
         fs.readFile(uploadPath, (err, data) => {
             if (err) {
@@ -126,9 +108,10 @@ app.use(async (req, res, next) => {
     Object.assign(res.locals, { globalController: controller, globalConfig: config })
     next()
 })
-app.use('/', indexRouter);
+app.use('/api', apiRouter);
 app.use('/users',cors(), usersRouter);
 app.use('/thumbzilla',thumbzillaRouter);
+app.use('/', indexRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
