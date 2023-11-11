@@ -3,6 +3,7 @@ const configPC = require('./mongod/configPC');
 var thumbzillaRouter = require('./routes/thumbzilla');
 const chineseConv = require('chinese-conv');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
 global.sity=(str) =>{
     // if(!str){
     //     return ''
@@ -68,13 +69,56 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload());
+const whitelist = ['18porn.cc','porncvd.com', 'avdcd.com', 'porn7f.com','uscvd.com','dsdsd.xyz','localhost','avday.tv']
+const hostFix=['www','lily','api','jp','uk','ch','dome','av']
+app.use(function (req, res, next) {
+    const origin = req.headers.origin
+    if (origin && whitelist.findIndex(v => origin.includes(v)) < 0) {
+        res.status(403).end();
+        return
+    }
+    const allowedOrigins =[]
+    whitelist.forEach(v => {
+        hostFix.forEach(h => {
+            allowedOrigins.push(`http://${h}.${v}`)
+            allowedOrigins.push(`https://${h}.${v}`)
+        })
+    })
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    res.setHeader('Access-Control-Expose-Headers', 'def');
+    if (req.method == 'OPTIONS') {
+      res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+      res.setHeader('Access-Control-Allow-Headers', 'content-type, abc');
+      res.setHeader('Access-Control-Max-Age', '-1');
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Vary', 'Origin' + ', ' + req.headers['access-control-request-headers']);
+      res.status(200).end();
+    } else {
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('def', '123');
+      next();
+    }
+  }); 
+ app.use(async (req, res, next) => {
+    if(req.path.endsWith('.txt')){
+        const uploadPath =path.join(__dirname,`./upload/${req.path}`) ;
+        fs.readFile(uploadPath, (err, data) => {
+            if (err) {
+            console.error('Error:', err);
+            res.status(500).send('Error reading file');
+            } else {
+                const buff = Buffer.from(data, 'base64');
+                // decode buffer as UTF-8
+                const str = buff.toString('utf-8');
+                res.send(str);
+            }
+        });
+        return
+    }
+    next()
+})   
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-const client_id='';
-// brew services start mongodb/brew/mongodb-community
-//https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
-///bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+app.use(express.static(path.join(__dirname, 'upload')));
 mongoose.connect('mongodb://localhost:27017/zhLand', {
     useNewUrlParser: true,
     useUnifiedTopology: true  }).then(res => console.log('zhLand'))
