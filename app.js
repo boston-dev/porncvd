@@ -4,6 +4,8 @@ var thumbzillaRouter = require('./routes/thumbzilla');
 const chineseConv = require('chinese-conv');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 global.sity=(str) =>{
     // if(!str){
     //     return ''
@@ -44,6 +46,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 //设置一下对于html格式的文件，渲染的时候委托ejs的渲染方面来进行渲染
 app.engine('html', require('ejs').renderFile);
+mongoose.connect('mongodb://localhost:27017/zhLand', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true  }).then(res => console.log('zhLand'))
+const  sessionMiddleware= session({
+    secret: 'zhLand-community',
+    resave: false,
+    saveUninitialized: true,
+    //指定保存的位置
+    store: new MongoStore({mongooseConnection: mongoose.connection})
+  })
+  app.use(sessionMiddleware);
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -101,9 +114,6 @@ app.use(function (req, res, next) {
 })   
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'upload')));
-mongoose.connect('mongodb://localhost:27017/zhLand', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true  }).then(res => console.log('zhLand'))
 app.use(async (req, res, next) => {
     Object.assign(res.locals, { globalController: controller, globalConfig: config })
     next()

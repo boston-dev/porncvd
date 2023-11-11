@@ -1,20 +1,15 @@
 var express = require('express');
 var router = express.Router();
-const mjw = require('../db/91mjw');
+const md5 = require('md5');
+const uuid = require('short-uuid');
 const moviesKuhui = require('../db/moviesKuhui');
-const javNav = require('../db/jav');
 const porn5fNav = require('../db/porn5f');
-const javdove = require('../db/javdove');
-const catDocs=[...require('../db/xnxx2.json'),...require('../db/xnxx.json')]
-const porn5filter=require('../db/porn5filter')
 const util = require('../util/util');
 const { SitemapStream, streamToPromise } = require('sitemap')
 const { Readable } = require('stream')
 const { createGzip } = require('zlib')
-const host='https://www.javdove.com'
 const axios =require('axios')
 const iconv = require('iconv-lite');
-const siteNav = require('../mongod/siteNav');
 const controller = require('../mongod/controller');
 const select='title img source'
 let category=process.env.NODE_ENV == 'development' ? category=[
@@ -168,6 +163,11 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     if(req.url.indexOf('/javs/realte.html') > -1){
         return  res.redirect('/')
     }
+    if(!req.session.userId){
+        req.session.userId=uuid.uuid()
+    }
+    console.log('-------',req.session.userId)
+
     controller.init('javsModel','findOne',{_id:req.params.id},
     {
         url:1,
@@ -243,7 +243,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             })
         }
         if(req.query.ajax){
-            return  res.send({video});
+            return  res.send({video,userId:req.session.userId});
         }
         let index=category.findIndex( v => v.cat == video.cat)
         if(index > -1){
@@ -678,6 +678,77 @@ router.get('/dp-toy.html',(req, res, next) => {
 router.get('/dcd8aee55c0f8c8fc0f64377e8cb9796.html',async (req, res, next) => {
    res.render('dcd8aee55c0f8c8fc0f64377e8cb9796')
 })
-
-
+router.post('/CreateOrder',async (req, res, next) => {
+    let params={
+        pid: 1030,
+        type: req.body.type,
+        money: req.body.price,
+    }
+    let status=true
+    for(let key in params){
+        if(!params[key]){
+            status=false
+        }
+    }
+    if(!status){
+        return res.send({code:400,msg:'参数错误'})
+    }
+    const host=process.env.HOST
+    Object.assign(params,{
+        out_trade_no:uuid.uuid(),
+        notify_url:host+'/callOrder',//https://uscvd.com/result
+        return_url:host+'/result',
+        name:'VIP会员',
+        param:req.session.userId,
+    })
+    let sortedKeys = Object.keys(params).sort();
+    let sign = sortedKeys.map(function(key) {
+        let value = params[key];
+        let keyValueString = key + "=" + value;
+        return keyValueString;
+    }).join("&");
+    Object.assign(params,{
+        sign_type:'MD5',
+        sign:md5(sign+'eFb6Yzj6qJLz3MXe6j6bwLG8bJPHfLgw')
+    })
+    res.send(params)
+})
+router.get('/callOrder',async (req, res, next) => {
+    controller.init('ordersModel','create',{
+        ...req.query,
+        date:Date.now() + 31 * 24 * 60 * 60 * 1000,
+    }).then(result =>{
+       res.send(result)
+    })
+})
+router.get('/vaidOrder',async (req, res, next) => {
+    const param=req.session.userId || req.query.userId
+    const trade_no=req.query.trade_no
+    const query={
+        $or:[]
+    }
+    if(param){
+        query.$or.push({param})  
+    }
+    if(trade_no){
+        query.$or.push({trade_no})  
+    }
+    controller.init('ordersModel','paginate',query,{
+        limit:52,
+        sort: { date: -1 },
+    }).then(result =>{
+        const {docs}=result.result
+        const date=Date.now()
+        const item=docs.find(v => v.date > date)
+        if(item){
+          res.send({code:200,result:item})
+          return  
+        }
+        res.send({
+            code:400,
+            msg:'您还没购买vip'
+        })
+       
+    })
+})
 module.exports = router;
