@@ -263,23 +263,13 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
     if(!req.query.search_query){
         return  res.redirect('/')
     }
-    if(+process.env.PORT === 6414){
-        req.query.search_query=global.sity(req.query.search_query)
-    }
+    console.log(req.query.search_query)
     const reg = new RegExp(req.query.search_query, 'i')
     let query={
         $or : [
             {title : {$regex : reg}},
             {keywords : {$regex : reg}}
         ]
-    }
-    if(res.locals.tplLang){
-        query={
-            $or : [
-                {title_en : {$regex : reg}},
-                {keywords_en : {$regex : reg}}
-            ]
-        }
     }
     controller.init('javsModel','paginate',query,{
         page: req.query.page || 1,
