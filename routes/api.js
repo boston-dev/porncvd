@@ -722,17 +722,22 @@ router.get('/callOrder',async (req, res, next) => {
     })
 })
 router.get('/vaidOrder',async (req, res, next) => {
-    const param=req.session.userId || req.query.userId
-    const trade_no=req.query.trade_no
+    const ip=res.locals.ip
+    const param= ip
+    const out_trade_no=req.query.out_trade_no
+    if(!out_trade_no){
+        return res.send({code:400,msg:'参数错误'})
+    }
     const query={
-        $or:[]
+        out_trade_no
     }
-    if(param){
-        query.$or.push({param})  
-    }
-    if(trade_no){
-        query.$or.push({trade_no})  
-    }
+    // if(trade_no){
+    //     query.$or.push({trade_no})  
+    // }
+    // if(param){
+    //     query.$or.push({param})  
+    // }
+    
     controller.init('ordersModel','paginate',query,{
         limit:52,
         sort: { date: -1 },
@@ -741,12 +746,17 @@ router.get('/vaidOrder',async (req, res, next) => {
         const date=Date.now()
         const item=docs.find(v => v.date > date)
         if(item){
-          res.send({code:200,result:item})
+          res.send({code:200,result:item,ip})
           return  
+        }
+        if(docs.length){
+            res.send({code:400,msg:'该订单已经过期',ip})
+            return  
         }
         res.send({
             code:400,
-            msg:'您还没购买vip'
+            msg:'您还没购买vip',
+            ip
         })
        
     })

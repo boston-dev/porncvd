@@ -10,7 +10,7 @@ const catsSchema = new mongoose.Schema({
     name:{type:String,default:''},
     money:{type:Number,default:0},
     trade_status:{type:String,default:''},
-    param:{type:String,default:''},//用户id
+    param:{type:String,default:''},//用户ip
     date:{type:Number,default:new Date().getTime()},
 });
 catsSchema.index({ date: -1 });
