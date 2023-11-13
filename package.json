@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production PORT=4322 HOST=http://localhost:4322 babel-node ./bin/www",
+    "start": "cross-env NODE_ENV=production PORT=4322 HOST=https://uscvd.com babel-node ./bin/www",
     "dev": "cross-env NODE_ENV=development PORT=4322 HOST=https://uscvd.com nodemon -r dotenv/config --exec babel-node ./bin/www"
   },
   "dependencies": {
