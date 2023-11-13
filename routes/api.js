@@ -365,7 +365,7 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
         
     }
     controller.init('javsModel','paginate',query,{
-        page:req.params.p || 1,
+        page:req.query.page || 1,
         limit:52,
         sort: { date: -1 },
         prelink,
