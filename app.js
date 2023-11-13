@@ -64,7 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload());
-const whitelist = ['bvujarg.xyz','18porn.cc','porncvd.com', 'avdcd.com', 'porn7f.com','uscvd.com','dsdsd.xyz','localhost','avday.tv']
+const whitelist = ['pornavd.com','bvujarg.xyz','18porn.cc','porncvd.com', 'avdcd.com', 'porn7f.com','uscvd.com','dsdsd.xyz','localhost','avday.tv']
 const hostFix=['www','lily','api','jp','uk','ch','dome','av']
 app.use(function (req, res, next) {
     const origin = req.headers.origin
