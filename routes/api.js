@@ -725,8 +725,9 @@ router.get('/vaidOrder',async (req, res, next) => {
     const ip=res.locals.ip
     const param= ip
     const out_trade_no=req.query.out_trade_no
+    const errorCode = req.query.code || 400
     if(!out_trade_no){
-        return res.send({code:400,msg:'参数错误'})
+        return res.send({code:errorCode,msg:'参数错误'})
     }
     const query={
         out_trade_no
@@ -750,11 +751,11 @@ router.get('/vaidOrder',async (req, res, next) => {
           return  
         }
         if(docs.length){
-            res.send({code:400,msg:'该订单已经过期',ip})
+            res.send({code:errorCode,msg:'该订单已经过期',ip})
             return  
         }
         res.send({
-            code:400,
+            code:errorCode,
             msg:'您还没购买vip',
             ip
         })
