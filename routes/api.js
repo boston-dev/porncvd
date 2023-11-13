@@ -696,7 +696,7 @@ router.post('/CreateOrder',async (req, res, next) => {
     const host=process.env.HOST
     Object.assign(params,{
         out_trade_no:uuid.uuid(),
-        notify_url:host+'/callOrder',//https://uscvd.com/result
+        notify_url:host+'/api/callOrder',
         return_url:host+'/result',
         name:'VIP会员',
         param:req.session.userId,
