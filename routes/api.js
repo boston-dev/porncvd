@@ -754,7 +754,7 @@ router.get('/vaidOrder',async (req, res, next) => {
 router.get('/sites',async (req, res, next) => {
 const ip=res.locals.ip
  res.send({
-    today: ['bvujarg.xyz','dsdsd.xyz'],
+    today: ['bvujarg.xyz'],
     now: ['uscvd.com'],
     ip
   })
