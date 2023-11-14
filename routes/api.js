@@ -164,11 +164,6 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
     if(req.url.indexOf('/javs/realte.html') > -1){
         return  res.redirect('/')
     }
-    if(!req.session.userId){
-        req.session.userId=uuid.uuid()
-    }
-    console.log('-------',req.session.userId)
-
     controller.init('javsModel','findOne',{_id:req.params.id},
     {
         url:1,
@@ -244,7 +239,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             })
         }
         if(req.query.ajax){
-            return  res.send({video,userId:req.session.userId});
+            return  res.send({video});
         }
         let index=category.findIndex( v => v.cat == video.cat)
         if(index > -1){
@@ -671,6 +666,7 @@ router.get('/dcd8aee55c0f8c8fc0f64377e8cb9796.html',async (req, res, next) => {
    res.render('dcd8aee55c0f8c8fc0f64377e8cb9796')
 })
 router.post('/CreateOrder',async (req, res, next) => {
+    const ip=res.locals.ip
     let params={
         pid: 1030,
         type: req.body.type,
@@ -691,7 +687,7 @@ router.post('/CreateOrder',async (req, res, next) => {
         notify_url:host+'/api/callOrder',
         return_url:host+'/result',
         name:'VIP会员',
-        param:req.session.userId,
+        param:ip,
     })
     let sortedKeys = Object.keys(params).sort();
     let sign = sortedKeys.map(function(key) {
@@ -706,6 +702,7 @@ router.post('/CreateOrder',async (req, res, next) => {
     res.send(params)
 })
 router.get('/callOrder',async (req, res, next) => {
+    
     controller.init('ordersModel','create',{
         ...req.query,
         date:Date.now() + 31 * 24 * 60 * 60 * 1000,
