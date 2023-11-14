@@ -12,6 +12,7 @@ const axios =require('axios')
 const iconv = require('iconv-lite');
 const controller = require('../mongod/controller');
 const select='title img source'
+const pagesize=20
 let category=process.env.NODE_ENV == 'development' ? category=[
     {cat:'60ec619309d38db869ca0c1b',type:'popular'},{cat:'60ec619309d38db869ca0c1c',type:'exclusive'}
 ] : [
@@ -273,7 +274,7 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
     }
     controller.init('javsModel','paginate',query,{
         page: req.query.page || 1,
-        limit:52,
+        limit:pagesize,
         sort: { date: -1 },
         prelink:`/search/javs?search_query=${req.query.search_query}&page=pageTpl`,
         populate: 'cat',
@@ -287,22 +288,13 @@ router.get('/search/javs|/english/search/javs',async (req, res, next) => {
 });
 router.get('/',async (req, res, next) => {
     controller.init('javsModel','paginate',{
-        
     },{
         page: req.query.page || 1,
-        limit:60,
+        limit:pagesize,
         sort: { date: -1 },
         prelink:'/?page=pageTpl',
         select,
     }).then(result =>{
-        if(+process.env.PORT === 6414){
-            result.result=JSON.parse(JSON.stringify(result.result))
-           Array.isArray(result.result.docs) && result.result.docs.forEach(v =>{
-                v.title=global.sity(v.title)
-                v.keywords=global.sity(v.keywords)
-                v.desc=global.sity(v.desc)
-            })
-        }
         if(req.query.ajax){
             return  res.send( result.result);
         }
@@ -366,7 +358,7 @@ router.get('/cat/:name/:p?',async (req, res, next) => {
     }
     controller.init('javsModel','paginate',query,{
         page:req.query.page || 1,
-        limit:52,
+        limit:pagesize,
         sort: { date: -1 },
         prelink,
     }).then(result =>{
@@ -763,9 +755,11 @@ router.get('/vaidOrder',async (req, res, next) => {
     })
 })
 router.get('/sites',async (req, res, next) => {
+const ip=res.locals.ip
  res.send({
     today: ['bvujarg.xyz','dsdsd.xyz'],
     now: ['uscvd.com'],
+    ip
   })
 })
 module.exports = router;
