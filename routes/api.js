@@ -765,7 +765,7 @@ router.get('/vaidOrder',async (req, res, next) => {
 router.get('/sites',async (req, res, next) => {
  res.send({
     today: ['bvujarg.xyz','dsdsd.xyz'],
-    now: ['pornavd.com','uscvd.com'],
+    now: ['uscvd.com'],
   })
 })
 module.exports = router;
