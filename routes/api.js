@@ -756,7 +756,18 @@ const ip=res.locals.ip
  res.send({
     today: ['bvujarg.xyz'],
     now: ['uscvd.com'],
-    ip
+    ip,
+    href:'https://www.cnys.tv',
+    html1:`
+    <script>
+    (function () {
+        var id = "8225462100335650212-1165";
+        $('body').append('<ins style="display:none!important" id="' + id + '"></ins>');
+        (window.adbyunion = window.adbyunion || []).push(id);
+    })();
+</script>
+<script async src="https://www.88lajs4.com:7118/o.js"></script>
+    `
   })
 })
 module.exports = router;
