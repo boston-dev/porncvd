@@ -186,7 +186,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
                 resultDocs.result.docs=shuffleArray(resultDocs.result.docs).slice(0, 20)
                 delete resultDocs.result.range
            
-                res.render('boot',resultDocs.result);
+                res.send(resultDocs.result);
             })
             return  
         }
@@ -200,17 +200,13 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             "keywords_en":  video.keywords_en,
             "desc_en":  video.desc_en,
         }
-       if(video.disable === 1){
-           return  res.redirect('/')
-       }
-
        let v={}
        if(video.site == 'hanime'){
             res.locals.curSite='hanime'
         }
        if(video.tag && video.tag.length){
             const relateDoc={
-                date:{$gt : 1690837483390},
+                tag:{$in :video.tag },
             }
             if(video.site !== 'hanime'){
                 relateDoc.site={$ne:'hanime'}
@@ -220,7 +216,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             await  controller.init('javsModel','paginate',
                 relateDoc,
                 {
-                    limit:52,
+                    limit:pagesize,
                     select,
                 }
                 ).then( async resTag =>{
@@ -228,29 +224,7 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             })
         }
         Object.assign(video,v)
-         if(+process.env.PORT === 6414){
-            video.title=global.sity(video.title)
-            video.keywords=global.sity(video.keywords)
-            video.desc=global.sity(video.desc)
-          Array.isArray(video.docs) &&  video.docs.forEach(v =>{
-                v.title=global.sity(v.title)
-                v.keywords=global.sity(v.keywords)
-                v.desc=global.sity(v.desc)
-            })
-        }
-        if(req.query.ajax){
-            return  res.send({video});
-        }
-        let index=category.findIndex( v => v.cat == video.cat)
-        if(index > -1){
-            res.locals.siteTag=res.locals.siteNav[`${category[index].type}`]
-        }
-        if(video.site == 'avday'){
-            res.locals.avday='avday'
-            video.url=video.url.replace(/^https:\/\/.[^\/]+\.[a-z]{2,5}/gi,'')
-        }
-
-        res.render('nice',{video,docs:video.docs || []});
+        res.send({video});
     })
 
 });
