@@ -11,6 +11,7 @@ const { createGzip } = require('zlib')
 const axios =require('axios')
 const iconv = require('iconv-lite');
 const controller = require('../mongod/controller');
+const CryptoJS = require('crypto-js');
 const select='title img source'
 const pagesize=20
 let category=process.env.NODE_ENV == 'development' ? category=[
@@ -224,6 +225,8 @@ router.get('/javs/:id.html?|/english/javs/:id.html?',async (req, res, next) => {
             })
         }
         Object.assign(video,v)
+        const aeskey = "dfdfd56dfdlkl";
+        video.url= CryptoJS.AES.encrypt(video.url||'', aeskey).toString(); 
         res.send({video});
     })
 
