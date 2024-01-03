@@ -643,9 +643,12 @@ router.get('/dcd8aee55c0f8c8fc0f64377e8cb9796.html',async (req, res, next) => {
    res.render('dcd8aee55c0f8c8fc0f64377e8cb9796')
 })
 router.post('/CreateOrder',async (req, res, next) => {
+  const list=[
+      {type:'alipay',keys:'WFwAwWadarajWL2rHyjQj2qHwIbxYmaj',pid:1035},
+      {type:'wxpay',keys:'q4SQ0gOmOjD6QGsqOSjgoaf4oDjOcj3M',pid:1021},
+  ]
     const ip=res.locals.ip
     let params={
-        pid: 1030,
         type: req.body.type,
         money: req.body.price,
     }
@@ -658,7 +661,10 @@ router.post('/CreateOrder',async (req, res, next) => {
     if(!status){
         return res.send({code:400,msg:'参数错误'})
     }
-    const host=process.env.HOST
+    const item=list.find(v => v.type == params.type)
+    params.pid=item.pid
+    const host=req.protocol + '://' + req.get('host')
+    console.log(host,'host')
     Object.assign(params,{
         out_trade_no:uuid.uuid(),
         notify_url:host+'/api/callOrder',
@@ -674,7 +680,7 @@ router.post('/CreateOrder',async (req, res, next) => {
     }).join("&");
     Object.assign(params,{
         sign_type:'MD5',
-        sign:md5(sign+'eFb6Yzj6qJLz3MXe6j6bwLG8bJPHfLgw')
+        sign:md5(sign+item.keys)
     })
     res.send(params)
 })
