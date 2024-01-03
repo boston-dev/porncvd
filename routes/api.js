@@ -663,7 +663,7 @@ router.post('/CreateOrder',async (req, res, next) => {
     }
     const item=list.find(v => v.type == params.type)
     params.pid=item.pid
-    const host=req.protocol + '://' + req.get('host')
+    const host=`https` + '://' + req.get('host')
     console.log(host,'host')
     Object.assign(params,{
         out_trade_no:uuid.uuid(),
