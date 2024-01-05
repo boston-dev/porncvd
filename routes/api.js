@@ -709,6 +709,11 @@ router.get('/vaidOrder',async (req, res, next) => {
         const date=Date.now()
         const item=docs.find(v => v.date > date)
         if(item){
+        res.cookie("ip", ip, {
+            maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year in milliseconds
+            httpOnly: true, // 可选，使cookie只能通过HTTP协议访问，而不被JavaScript访问
+            // 其他cookie选项可以在这里添加
+            });
           res.send({code:200,result:item,ip})
           return  
         }
