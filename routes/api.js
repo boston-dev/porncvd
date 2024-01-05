@@ -694,7 +694,7 @@ router.get('/callOrder',async (req, res, next) => {
     })
 })
 router.get('/vaidOrder',async (req, res, next) => {
-    const ip=res.locals.ip
+    const ip=req.query.ip || res.locals.ip
     const param= ip
     let errorCode=req.query.code || 400
     errorCode=+errorCode
