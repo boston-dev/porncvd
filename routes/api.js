@@ -696,21 +696,11 @@ router.get('/callOrder',async (req, res, next) => {
 router.get('/vaidOrder',async (req, res, next) => {
     const ip=res.locals.ip
     const param= ip
-    const out_trade_no=req.query.out_trade_no
-    const errorCode = req.query.code || 400
-    if(!out_trade_no){
-        return res.send({code:errorCode,msg:'参数错误'})
-    }
+    let errorCode=req.query.code || 400
+    errorCode=+errorCode
     const query={
-        out_trade_no
+        param
     }
-    // if(trade_no){
-    //     query.$or.push({trade_no})  
-    // }
-    // if(param){
-    //     query.$or.push({param})  
-    // }
-    
     controller.init('ordersModel','paginate',query,{
         limit:52,
         sort: { date: -1 },

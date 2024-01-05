@@ -6,6 +6,7 @@ const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const short = require('short-uuid');
 global.sity = (str) => {
   // if(!str){
   //     return ''
@@ -137,14 +138,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "upload")));
 app.use(async (req, res, next) => {
   const ip =
-    req.cookies.ip ||
-    (
-      req.headers["x-forwarded-for"] ||
-      req.connection.remoteAddress ||
-      ""
-    ).replace(/,.+/gi, "");
+    req.cookies.ip || short.generate();
   res.locals.ip = ip;
-  console.log("ip", ip);
   res.cookie("ip", ip, {
     maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year in milliseconds
     httpOnly: true, // 可选，使cookie只能通过HTTP协议访问，而不被JavaScript访问
