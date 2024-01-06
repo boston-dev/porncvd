@@ -742,8 +742,8 @@ router.get('/sites',async (req, res, next) => {
         now: ['uscvd.com'],
         ip: ip,
         href: 'https://wlmtd.qiimee.com/yy.html',
-        html1: arr[0],
-        html2: arr[1],
+       // html1: arr[0],
+        //html2: arr[1],
         price: 40,
     });
     const item=arr.shift()
