@@ -14,6 +14,8 @@ const controller = require('../mongod/controller');
 const CryptoJS = require('crypto-js');
 const select='title img source'
 const pagesize=20
+const path=require('path')
+const fs=require('fs')
 let category=process.env.NODE_ENV == 'development' ? category=[
     {cat:'60ec619309d38db869ca0c1b',type:'popular'},{cat:'60ec619309d38db869ca0c1c',type:'exclusive'}
 ] : [
@@ -729,15 +731,18 @@ router.get('/vaidOrder',async (req, res, next) => {
        
     })
 })
+const data =  fs.readFileSync(path.join(__dirname, '../views/ads/index.html'), 'utf8');
+const data2 =  fs.readFileSync(path.join(__dirname, '../views/ads/index2.html'), 'utf8');
 router.get('/sites',async (req, res, next) => {
-const ip=res.locals.ip
- res.send({
-    today: ['bvujarg.xyz'],
-    now: ['uscvd.com'],
-    ip,
-    href:'https://wlmtd.qiimee.com/yy.html',
-    html1:`
-    `
-  })
+    const ip=res.locals.ip
+    res.send({
+        today: ['bvujarg.xyz'],
+        now: ['uscvd.com'],
+        ip: ip,
+        href: 'https://wlmtd.qiimee.com/yy.html',
+        html1: data,
+        html2: data2,
+    });
+ 
 })
 module.exports = router;
