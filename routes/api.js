@@ -744,6 +744,7 @@ router.get('/sites',async (req, res, next) => {
         href: 'https://wlmtd.qiimee.com/yy.html',
         html1: arr[0],
         html2: arr[1],
+        price: 40,
     });
     const item=arr.shift()
     arr.push(item)
