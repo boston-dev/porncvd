@@ -733,11 +733,11 @@ router.get('/vaidOrder',async (req, res, next) => {
 })
 const data =  fs.readFileSync(path.join(__dirname, '../views/ads/index.html'), 'utf8');
 const data2 =  fs.readFileSync(path.join(__dirname, '../views/ads/index2.html'), 'utf8');
-const arr=[data]
+const arr=[data,data2]
 router.get('/sites',async (req, res, next) => {
     const ip=res.locals.ip
     res.send({
-        time:12,
+        time:10,
         today: ['bvujarg.xyz'],
         now: ['uscvd.com'],
         ip: ip,
