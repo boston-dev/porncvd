@@ -741,7 +741,7 @@ router.get('/sites',async (req, res, next) => {
         today: ['bvujarg.xyz'],
         now: ['uscvd.com'],
         ip: ip,
-        href: 'https://wlmtd.qiimee.com/yy.html',
+       // href: 'https://wlmtd.qiimee.com/yy.html',
        // html1: arr[0],
         //html2: arr[1],
         price: 40,
