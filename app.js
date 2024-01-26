@@ -80,11 +80,12 @@ const whitelist = [
   "dsdsd.xyz",
   "localhost",
   "avday.tv",
+  "localhost"
 ];
 const hostFix = ["www", "lily", "api", "jp", "uk", "ch", "dome", "av"];
 app.use(function (req, res, next) {
   const origin = req.headers.origin;
-  if (origin && whitelist.findIndex((v) => origin.includes(v)) < 0) {
+  if (origin && !localhost.includes(localhost) && whitelist.findIndex((v) => origin.includes(v)) < 0) {
     res.status(403).end();
     return;
   }
