@@ -344,4 +344,8 @@ router.post('/img-save', async (req, res, next) => {
     data
    })
 })
+router.get('/datas', async (req, res, next) => {
+    let result=await spankbang.apiData()
+    res.send(result)
+})
 module.exports = router;

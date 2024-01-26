@@ -13,6 +13,23 @@ const pup = new Crawler({
     retryTimeout:4000,
 });
 const m3u8down={
+    async apiData(uri=`https://bet-xx.com/static/game.json?t=${new Date().getTime()}`){
+        return new Promise((resolve) =>{
+             pup.queue([{
+                 uri,
+                 encoding:null,
+                 jQuery:false,// set false to suppress warning message.
+                 callback:function(err, res, done){
+                     if(err){
+                         console.error(err.stack);
+                     }else{
+                         resolve(res.body)
+                     }
+                     done();
+                 }
+             }]);
+         })
+     },
     async m3u8Array(uri){
         return new Promise((resolve) =>{
              pup.queue([{
