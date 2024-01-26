@@ -69,54 +69,54 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload());
-const whitelist = [
-  "pornavd.com",
-  "bvujarg.xyz",
-  "18porn.cc",
-  "porncvd.com",
-  "avdcd.com",
-  "porn7f.com",
-  "uscvd.com",
-  "dsdsd.xyz",
-  "localhost",
-  "avday.tv",
-  "localhost"
-];
-const hostFix = ["www", "lily", "api", "jp", "uk", "ch", "dome", "av"];
-app.use(function (req, res, next) {
-  const origin = req.headers.origin;
-  if (origin && !localhost.includes('localhost') && whitelist.findIndex((v) => origin.includes(v)) < 0) {
-    res.status(403).end();
-    return;
-  }
-  const allowedOrigins = [];
-  whitelist.forEach((v) => {
-    hostFix.forEach((h) => {
-      allowedOrigins.push(`http://${h}.${v}`);
-      allowedOrigins.push(`https://${h}.${v}`);
-    });
-  });
-  res.setHeader("Access-Control-Allow-Origin", origin || "*");
-  res.setHeader("Access-Control-Expose-Headers", "def");
-  if (req.method == "OPTIONS") {
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET,HEAD,PUT,PATCH,POST,DELETE"
-    );
-    res.setHeader("Access-Control-Allow-Headers", "content-type, abc");
-    res.setHeader("Access-Control-Max-Age", "-1");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader(
-      "Vary",
-      "Origin" + ", " + req.headers["access-control-request-headers"]
-    );
-    res.status(200).end();
-  } else {
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("def", "123");
-    next();
-  }
-});
+// const whitelist = [
+//   "pornavd.com",
+//   "bvujarg.xyz",
+//   "18porn.cc",
+//   "porncvd.com",
+//   "avdcd.com",
+//   "porn7f.com",
+//   "uscvd.com",
+//   "dsdsd.xyz",
+//   "localhost",
+//   "avday.tv",
+//   "localhost"
+// ];
+// const hostFix = ["www", "lily", "api", "jp", "uk", "ch", "dome", "av"];
+// app.use(function (req, res, next) {
+//   const origin = req.headers.origin;
+//   if (origin && !localhost.includes('localhost') && whitelist.findIndex((v) => origin.includes(v)) < 0) {
+//     res.status(403).end();
+//     return;
+//   }
+//   const allowedOrigins = [];
+//   whitelist.forEach((v) => {
+//     hostFix.forEach((h) => {
+//       allowedOrigins.push(`http://${h}.${v}`);
+//       allowedOrigins.push(`https://${h}.${v}`);
+//     });
+//   });
+//   res.setHeader("Access-Control-Allow-Origin", origin || "*");
+//   res.setHeader("Access-Control-Expose-Headers", "def");
+//   if (req.method == "OPTIONS") {
+//     res.setHeader(
+//       "Access-Control-Allow-Methods",
+//       "GET,HEAD,PUT,PATCH,POST,DELETE"
+//     );
+//     res.setHeader("Access-Control-Allow-Headers", "content-type, abc");
+//     res.setHeader("Access-Control-Max-Age", "-1");
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader(
+//       "Vary",
+//       "Origin" + ", " + req.headers["access-control-request-headers"]
+//     );
+//     res.status(200).end();
+//   } else {
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader("def", "123");
+//     next();
+//   }
+// });
 app.use(async (req, res, next) => {
   if (req.path.endsWith(".txt") && !req.path.includes("robots.txt")) {
     const uploadPath = path.join(__dirname, `./upload/${req.path}`);
